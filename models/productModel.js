@@ -138,6 +138,9 @@ const productSchema = new mongoose.Schema(
     sideEffects: {
       type: String,
     },
+    testimonials: {
+      type: String,
+    },
     dosage: {
       type: String,
     },
@@ -183,15 +186,15 @@ const productSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      default: "otc",
+      default: "food supplement",
       enum: [
-        "otc",
-        "supplements",
-        "supplement for men",
-        "supplement for women",
-        "supplement for kid",
-        "contraceptives",
-        "energy drink",
+        "beverages",
+        "food supplement",
+        "capsules",
+        "soak",
+        "lotion",
+        "tonic",
+        "others",
       ],
     },
     howToUse: {
@@ -262,6 +265,9 @@ const productSchema = new mongoose.Schema(
         images: { type: Array },
       },
     ],
+    sku: {
+      type: String,
+    },
   },
   {
     toJSON: { virtuals: true },
