@@ -25,15 +25,11 @@ const policySchema = new mongoose.Schema(
       default: "inactive",
       enum: ["inactive", "active"],
     },
-    shoppingMode: {
-      type: String,
-      default: "online",
-      enum: ["online", "onsite"],
-    },
-    onlineOrigin: {
-      type: mongoose.Schema.ObjectId,
-      ref: "State",
-    },
+    // onlineShoppingLocation: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "Location",
+    // },
+
     allowCentralCommission: {
       type: Boolean,
       default: false,

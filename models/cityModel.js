@@ -93,6 +93,16 @@ const citySchema = new mongoose.Schema(
       default: false,
       enum: [false, true],
     },
+    allowPickUpDelivery: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    placeType: {
+      type: String,
+      default: "conventional",
+      enum: ["conventional", "organizational"],
+    },
   },
   {
     toJSON: { virtuals: true },

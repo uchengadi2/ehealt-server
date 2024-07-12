@@ -6,7 +6,7 @@ const locationSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide the name of the state"],
     },
-    refNumber: {
+    code: {
       type: String,
       required: [false, "Please provide the state code"],
     },
@@ -14,7 +14,7 @@ const locationSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    type: {
+    locationType: {
       type: String,
       default: "own-shop",
       enum: [
@@ -24,27 +24,7 @@ const locationSchema = new mongoose.Schema(
         "affiliate-warehouse",
       ],
     },
-    address: {
-      type: String,
-    },
-    region: {
-      type: String,
-      enum: [
-        "west",
-        "north",
-        "south",
-        "east",
-        "central",
-        "south-east",
-        "south-west",
-        "south-central",
-        "south-south",
-        "north-east",
-        "north-west",
-        "north-central",
-        "north-north",
-      ],
-    },
+
     country: [
       {
         type: mongoose.Schema.ObjectId,
@@ -63,6 +43,12 @@ const locationSchema = new mongoose.Schema(
         ref: "City",
       },
     ],
+    address: {
+      type: String,
+    },
+    town: {
+      type: String,
+    },
 
     contactPerson: {
       type: String,
@@ -83,17 +69,13 @@ const locationSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    canSellOnLine: {
-      type: Boolean,
-      default: false,
-      enum: [false, true],
-    },
-    canSellThroughAffiliate: {
+    allowAffiliateSale: {
       type: Boolean,
       default: false,
       enum: [false, true],
     },
   },
+
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },

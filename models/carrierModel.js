@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const supplierSchema = new mongoose.Schema(
+const carrierSchema = new mongoose.Schema(
   {
-    supplierNumber: {
+    carrierNumber: {
       type: String,
-      required: [true, "Please provide the name of a vendor"],
+      required: [false, "Please provide the name of a vendor"],
     },
     name: {
       type: String,
@@ -15,7 +15,7 @@ const supplierSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    supplierType: {
+    carrierType: {
       type: String,
       default: "local",
       enum: ["local", "foreign"],
@@ -46,7 +46,7 @@ const supplierSchema = new mongoose.Schema(
     contactPersonEmail: {
       type: String,
     },
-    products: {
+    vehicles: {
       type: String,
     },
     bankDetails: {
@@ -97,7 +97,7 @@ const supplierSchema = new mongoose.Schema(
 );
 
 //QUERY MIDDLEWARE
-supplierSchema.pre(/^find/, function (next) {
+carrierSchema.pre(/^find/, function (next) {
   this.populate({
     path: "country",
   });
@@ -108,5 +108,5 @@ supplierSchema.pre(/^find/, function (next) {
   next();
 });
 
-const Supplier = mongoose.model("Supplier", supplierSchema);
-module.exports = Supplier;
+const Carrier = mongoose.model("Carrier", carrierSchema);
+module.exports = Carrier;

@@ -62,10 +62,19 @@ const productSchema = new mongoose.Schema(
     pricePerUnit: {
       type: Number,
     },
-
-    minQuantity: {
+    priceLabel: {
+      type: String,
+    },
+    weightPerUnit: {
       type: Number,
-      default: 1,
+    },
+
+    // minQuantity: {
+    //   type: Number,
+    //   default: 1,
+    // },
+    minimumQuantity: {
+      type: Number,
     },
     isOnPromo: {
       type: String,
@@ -90,8 +99,26 @@ const productSchema = new mongoose.Schema(
       type: String,
     },
 
+    // unit: {
+    //   type: String,
+    // },
     unit: {
       type: String,
+      default: "kg",
+      enum: [
+        "kg",
+        "g",
+        "ibs",
+        "tonnes",
+        "bottle",
+        "sachet",
+        "pack",
+        "carton",
+        "container",
+        "dose",
+        "tablet",
+        "milligram",
+      ],
     },
 
     createdAt: {
@@ -119,6 +146,20 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "yes",
       enum: ["yes", "no"],
+    },
+    productType: {
+      type: String,
+      default: "single-product",
+      enum: [
+        "single-product",
+        "multiple-but-same-product",
+        "multiple-but-different-products",
+      ],
+    },
+    stockStatus: {
+      type: String,
+      default: "in-stock",
+      enum: ["in-stock", "out-of-stock", "sold-out"],
     },
     expiryDate: {
       type: Date,
@@ -165,7 +206,7 @@ const productSchema = new mongoose.Schema(
     salesPreference: {
       type: String,
       default: "retail",
-      enum: ["retail", "wholesale"],
+      enum: ["retail", "wholesale", "deal"],
     },
     requestQuote: {
       type: Boolean,
@@ -238,6 +279,9 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    marketPricingCondition: {
+      type: String,
+    },
     hasVariant: {
       type: Boolean,
       default: false,
@@ -267,6 +311,196 @@ const productSchema = new mongoose.Schema(
     ],
     sku: {
       type: String,
+    },
+    barcode: {
+      type: String,
+    },
+    deliverability: {
+      type: String,
+    },
+    pickupInfo: {
+      type: String,
+    },
+
+    allowPriceFreezing: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    allowFreezedPriceLowBound: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    freezedPriceLowBound: {
+      type: Number,
+      default: 0,
+    },
+    chargesPerWeekOnFreezedPriceServiceWithoutPriceLowBound: {
+      type: Number,
+      default: 0,
+    },
+    chargesPerWeekOnFreezedPriceServiceWithPriceLowBound: {
+      type: Number,
+      default: 0,
+    },
+    freezedPriceMaximumDurationInWeeks: {
+      type: Number,
+      default: 0,
+    },
+    minimumFreezableQuantity: {
+      type: Number,
+    },
+    datePriceWasSet: {
+      type: Date,
+    },
+    requiredMaximumNumberOfCommunityMembers: {
+      type: Number,
+      default: 0,
+    },
+    communityTotalPurchaseableUnit: {
+      type: Number,
+      default: 0,
+    },
+
+    communityDeliveryPeriod: {
+      type: String,
+    },
+    communityDeliveryType: {
+      type: String,
+      default: "same-location",
+      enum: ["same-locatiion", "diverse-location", "hybrid"],
+    },
+    communityInstruction: {
+      type: String,
+    },
+    dealCode: {
+      type: String,
+      default: null,
+    },
+    dealExpiryDate: {
+      type: String,
+      default: null,
+    },
+    dealType: {
+      type: String,
+      default: "public",
+      enum: ["public", "private"],
+    },
+    showDealPricePerUnit: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    allowDealQuantityChange: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    dealStatus: {
+      type: String,
+      default: "inactive",
+      enum: ["inactive", "active"],
+    },
+    dealComment: {
+      type: String,
+      default: null,
+    },
+    dealDeliveryMode: {
+      type: String,
+      default: "centralized-at-no-cost",
+      enum: [
+        "centralized-at-no-cost",
+        "centralized-at-agreed-cost",
+        "decentralized-at-no-cost",
+        "decentralized-at-agreed-cost",
+        "managed-by-each-beneficiary",
+      ],
+    },
+    dealCentralizedDeliveryLocation: {
+      type: String,
+      default: null,
+    },
+    dealCentralizedAgreedDeliveryCost: {
+      type: Number,
+      default: 0,
+    },
+    dealDecentralizedDeliveryLocation: [
+      {
+        type: String,
+        default: null,
+      },
+    ],
+    dealDecentralizedAgreedDeliveryCost: {
+      type: Number,
+      default: 0,
+    },
+    showDealDeliveryCost: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    dealPaymentPreference: {
+      type: String,
+      default: "each-beneficiary-make-own-payment",
+      enum: [
+        "each-beneficiary-make-own-payment",
+        "beneficiaries-make-collective-payment",
+        "payment-settled-by-an-entity",
+        "no-payment-is-required",
+      ],
+    },
+    showDealPaymentDetails: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    requestDealRedemptionCode: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    isAContributoryDeal: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+
+    dealOwnerEntity: {
+      type: mongoose.Schema.ObjectId,
+      ref: "State",
+    },
+
+    dealOwner: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Community",
+    },
+
+    dealInitialPercentageContribution: {
+      type: Number,
+      default: 0,
+    },
+    dealMaximumInstallmentAllowed: {
+      type: Number,
+      default: 1,
+    },
+    includeGatewayChargesInPrice: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
+    gatewayFixedCharge: {
+      type: Number,
+      default: 0,
+    },
+    gatewayRateCharge: {
+      type: Number,
+      default: 0,
+    },
+    isACreditDeal: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
     },
   },
   {

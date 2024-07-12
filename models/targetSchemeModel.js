@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const cartSchema = new mongoose.Schema(
+const targetSchemeSchema = new mongoose.Schema(
   {
     product: {
       type: mongoose.Schema.ObjectId,
@@ -39,9 +39,10 @@ const cartSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      default: "unmarked-for-checkout",
-      enum: ["unmarked-for-checkout", "marked-for-checkout", "checkedout"],
+      default: "pending",
+      enum: ["pending", "delivered", "expired"],
     },
+
     preferredStartDate: {
       type: Date,
     },
@@ -55,20 +56,7 @@ const cartSchema = new mongoose.Schema(
     unit: {
       type: String,
       default: "kg",
-      enum: [
-        "kg",
-        "g",
-        "ibs",
-        "tonnes",
-        "bottle",
-        "sachet",
-        "pack",
-        "carton",
-        "container",
-        "dose",
-        "tablet",
-        "milligram",
-      ],
+      enum: ["kg", "g", "ibs", "tonnes"],
     },
     isVatable: {
       type: Boolean,
@@ -87,7 +75,6 @@ const cartSchema = new mongoose.Schema(
     payOnDeliveryMaxWeightInKg: {
       type: Number,
     },
-
     dealCode: {
       type: String,
       default: null,
@@ -203,12 +190,20 @@ const cartSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "State",
     },
-
+    paymentStatus: {
+      type: String,
+      default: "incomplete",
+      enum: ["incomplete", "complete"],
+    },
+    amountAlreadyContributed: {
+      type: Number,
+      default: 0,
+    },
     dealInitialPercentageContribution: {
       type: Number,
       default: 0,
     },
-    dealMaximumInstallmentAllowed: {
+    dealNumberOfInstallments: {
       type: Number,
       default: 1,
     },
@@ -223,6 +218,15 @@ const cartSchema = new mongoose.Schema(
     gatewayRateCharge: {
       type: Number,
     },
+    currentInstallmentRound: {
+      type: Number,
+      default: 0,
+    },
+    isACreditDeal: {
+      type: Boolean,
+      default: false,
+      enum: [false, true],
+    },
   },
 
   {
@@ -231,5 +235,5 @@ const cartSchema = new mongoose.Schema(
   }
 );
 
-const Cart = mongoose.model("Cart", cartSchema);
-module.exports = Cart;
+const TargetScheme = mongoose.model("TargetScheme", targetSchemeSchema);
+module.exports = TargetScheme;
